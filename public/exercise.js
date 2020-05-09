@@ -30,7 +30,7 @@ async function initExercise() {
 
 }
 
-initExercise();
+// initExercise();
 
 function handleWorkoutTypeChange(event) {
   workoutType = event.target.value;
@@ -113,11 +113,15 @@ async function handleFormSubmit(event) {
     workoutData.reps = Number(repsInput.value.trim());
     workoutData.duration = Number(resistanceDurationInput.value.trim());
   }
-
-  await API.addExercise(workoutData);
+  let filename = location.search;
+  if (filename.indexOf("?id") > -1) {
+    await API.addExercise(workoutData);
+  } else {
+    await API.createWorkout(workoutData);
+  }
   clearInputs();
   toast.classList.add("success");
-}
+};
 
 function handleToastAnimationEnd() {
   toast.removeAttribute("class");
